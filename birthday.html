@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Happy Birthday 💖</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500;1,700&family=Caveat:wght@500;700&family=Nunito:wght@400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --night: #1b0f2e;
+            --plum: #2d1748;
+            --rose: #ff6f91;
+            --gold: #ffd08a;
+            --blush: #ffe4ec;
+            --lav: #b79cff;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+            --hand: 'Caveat', 'Segoe Script', cursive;
+            --sans: 'Nunito', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: var(--sans);
+            color: var(--blush);
+            background: radial-gradient(ellipse at top, var(--plum), var(--night) 70%) fixed;
+            min-height: 100vh;
+            overflow-x: hidden
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: 0
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 3px
+        }
+
+        #hearts {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden
+        }
+
+        .h {
+            position: absolute;
+            bottom: -40px;
+            opacity: .5;
+            animation: rise linear infinite
+        }
+
+        @keyframes rise {
+            to {
+                transform: translateY(-115vh) rotate(25deg);
+                opacity: 0
+            }
+        }
+
+        #confetti {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50
+        }
+
+        /* ---------- LOGIN ---------- */
+        #login {
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: radial-gradient(ellipse at center, var(--plum), var(--night));
+            transition: opacity .9s, visibility .9s
+        }
+
+        #login.gone {
+            opacity: 0;
+            visibility: hidden
+        }
+
+        .lock {
+            text-align: center;
+            max-width: 380px;
+            width: 100%
+        }
+
+        .lock .big {
+            font-size: 76px;
+            animation: beat 1.4s infinite
+        }
+
+        @keyframes beat {
+
+            0%,
+            100% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.12)
+            }
+        }
+
+        .lock h1 {
+            font-family: var(--serif);
+            font-style: italic;
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin: 10px 0 6px
+        }
+
+        .lock p {
+            opacity: .8;
+            margin-bottom: 22px
+        }
+
+        .lock input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 40px;
+            border: 2px solid var(--lav);
+            background: rgba(255, 255, 255, .08);
+            color: #fff;
+            font: inherit;
+            font-size: 1.05rem;
+            text-align: center;
+            letter-spacing: .08em
+        }
+
+        .lock input::placeholder {
+            letter-spacing: 0;
+            color: #ffffff88
+        }
+
+        .lock .go {
+            margin-top: 14px;
+            width: 100%;
+            padding: 14px;
+            border-radius: 40px;
+            background: linear-gradient(135deg, var(--rose), #ff9a76);
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.05rem
+        }
+
+        .lock .msg {
+            min-height: 1.6em;
+            margin-top: 12px;
+            color: var(--gold);
+            font-size: .95rem
+        }
+
+        .shake {
+            animation: shake .4s
+        }
+
+        @keyframes shake {
+            25% {
+                transform: translateX(-10px)
+            }
+
+            75% {
+                transform: translateX(10px)
+            }
+        }
+
+        /* ---------- MAIN ---------- */
+        main {
+            position: relative;
+            z-index: 1;
+            display: none
+        }
+
+        main.show {
+            display: block;
+            animation: fade 1.4s
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0
+            }
+        }
+
+        section {
+            max-width: 960px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 60px 22px 120px;
+            text-align: center;
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center
+        }
+
+        section.active {
+            display: flex;
+            animation: fade .8s
+        }
+
+        .grid,
+        .letter,
+        .cards {
+            width: 100%
+        }
+
+        .hero {
+            position: relative
+        }
+
+        .hero .hb {
+            font-family: var(--serif);
+            font-style: italic;
+            font-weight: 500;
+            font-size: clamp(2rem, 7vw, 3.6rem);
+            color: var(--gold)
+        }
+
+        .hero .name {
+            font-family: var(--hand);
+            font-weight: 700;
+            font-size: clamp(4.2rem, 20vw, 10rem);
+            line-height: 1;
+            background: linear-gradient(120deg, var(--rose), var(--gold), var(--lav));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            padding: .1em .15em;
+            filter: drop-shadow(0 6px 24px #ff6f9155)
+        }
+
+        .hero p {
+            max-width: 34ch;
+            margin-top: 18px;
+            font-size: 1.1rem;
+            opacity: .85;
+            line-height: 1.6
+        }
+
+        .hero .down {
+            margin-top: 36px;
+            padding: 12px 26px;
+            border-radius: 40px;
+            background: transparent;
+            border: 2px solid var(--rose);
+            color: var(--blush)
+        }
+
+        .hero .down:hover {
+            background: var(--rose)
+        }
+
+        h2 {
+            font-family: var(--serif);
+            font-style: italic;
+            font-weight: 700;
+            font-size: clamp(2rem, 6vw, 3rem);
+            margin-bottom: 8px
+        }
+
+        .sub {
+            opacity: .75;
+            margin-bottom: 44px
+        }
+
+        /* photos */
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 34px 28px
+        }
+
+        .pol {
+            width: min(260px, 80vw);
+            background: #fff;
+            padding: 12px 12px 16px;
+            border-radius: 6px;
+            box-shadow: 0 14px 34px #0008;
+            color: #3a2450;
+            transition: transform .35s
+        }
+
+        .pol:nth-child(odd) {
+            transform: rotate(-3deg)
+        }
+
+        .pol:nth-child(even) {
+            transform: rotate(2.5deg)
+        }
+
+        .pol:nth-child(3) {
+            transform: rotate(-1deg)
+        }
+
+        .pol:hover {
+            transform: rotate(0) scale(1.06);
+            z-index: 2
+        }
+
+        .pol .ph {
+            aspect-ratio: 1;
+            border-radius: 3px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffc2d1, #d7c6ff);
+            display: grid;
+            place-items: center;
+            font-size: 44px
+        }
+
+        .pol img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block
+        }
+
+        .pol figcaption {
+            font-family: var(--hand);
+            font-size: 1.5rem;
+            margin-top: 10px
+        }
+
+        /* letter */
+        .letter {
+            background: linear-gradient(160deg, #fff6f8, #ffe4ec);
+            color: #4a2a55;
+            border-radius: 14px;
+            padding: 38px 30px;
+            max-width: 640px;
+            margin: 0 auto;
+            box-shadow: 0 18px 44px #0007;
+            text-align: left;
+            font-family: var(--hand);
+            font-size: 1.6rem;
+            line-height: 1.55
+        }
+
+        .letter p+p {
+            margin-top: .8em
+        }
+
+        .letter .sig {
+            text-align: right;
+            margin-top: 1.2em;
+            color: #d63f6b;
+            font-weight: 700
+        }
+
+        /* reasons */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px
+        }
+
+        .card {
+            perspective: 800px;
+            height: 170px;
+            background: none
+        }
+
+        .card .in {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform .7s;
+            transform-style: preserve-3d
+        }
+
+        .card.flip .in {
+            transform: rotateY(180deg)
+        }
+
+        .card .f,
+        .card .b {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            padding: 16px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden
+        }
+
+        .card .f {
+            background: linear-gradient(135deg, var(--rose), #c44dff);
+            font-size: 42px
+        }
+
+        .card .b {
+            background: var(--blush);
+            color: #4a2a55;
+            transform: rotateY(180deg);
+            font-family: var(--hand);
+            font-size: 1.35rem;
+            line-height: 1.2
+        }
+
+        /* surprises */
+        .stage {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 56px;
+            align-items: flex-end
+        }
+
+        .tool {
+            max-width: 290px
+        }
+
+        .tool .say {
+            min-height: 3.4em;
+            margin-top: 16px;
+            font-family: var(--hand);
+            font-size: 1.5rem;
+            color: var(--gold);
+            line-height: 1.2
+        }
+
+        .btn {
+            margin-top: 14px;
+            padding: 12px 24px;
+            border-radius: 40px;
+            background: linear-gradient(135deg, var(--rose), #ff9a76);
+            color: #fff;
+            font-weight: 600
+        }
+
+        .flame {
+            transform-origin: 50% 100%;
+            animation: flick .5s infinite alternate
+        }
+
+        @keyframes flick {
+            to {
+                transform: scale(1.15, .9) rotate(4deg)
+            }
+        }
+
+        .out .flame {
+            display: none
+        }
+
+        .gift {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            margin: 0 auto;
+            background: none
+        }
+
+        .gift .box {
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            right: 10px;
+            height: 95px;
+            background: var(--rose);
+            border-radius: 6px
+        }
+
+        .gift .box::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 22px;
+            margin-left: -11px;
+            background: var(--gold)
+        }
+
+        .gift .lid {
+            position: absolute;
+            bottom: 88px;
+            left: 0;
+            right: 0;
+            height: 34px;
+            background: #ff8fa8;
+            border-radius: 6px;
+            transition: transform .6s;
+            transform-origin: left bottom
+        }
+
+        .gift .lid::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 22px;
+            margin-left: -11px;
+            background: var(--gold)
+        }
+
+        .gift.open .lid {
+            transform: translateY(-34px) rotate(-28deg)
+        }
+
+        .gift:not(.open) {
+            animation: beat 1.6s infinite
+        }
+
+        .fin {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
+            color: var(--gold);
+            line-height: 1.3;
+            max-width: 20ch
+        }
+
+        .vid {
+            width: 100%;
+            max-width: 820px;
+            aspect-ratio: 16/9;
+            border-radius: 14px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #3a1d5c, #5a2a78);
+            box-shadow: 0 18px 44px #0009;
+            display: grid;
+            place-items: center;
+            font-size: 54px
+        }
+
+        .vid video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background: #000
+        }
+
+        .vlines {
+            max-width: 640px;
+            margin-top: 26px;
+            font-family: var(--hand);
+            font-size: 1.7rem;
+            line-height: 1.4;
+            color: var(--gold)
+        }
+
+        .vlines p+p {
+            margin-top: .4em
+        }
+
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 18px;
+            background: linear-gradient(transparent, var(--night) 65%)
+        }
+
+        nav.show {
+            display: flex
+        }
+
+        nav button {
+            padding: 10px 24px;
+            border-radius: 40px;
+            background: var(--rose);
+            color: #fff;
+            font-weight: 600
+        }
+
+        nav button:disabled {
+            opacity: .25;
+            cursor: default
+        }
+
+        .dots {
+            display: flex;
+            gap: 7px
+        }
+
+        .dots i {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ffffff44;
+            transition: .3s
+        }
+
+        .dots i.on {
+            background: var(--gold);
+            transform: scale(1.4)
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            * {
+                animation: none !important;
+                transition: none !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+     ✏️  EDIT ONLY THIS PART  (name, password, photos, texts)
+     ===================================================== -->
+    <script>
+        const CONFIG = {
+            friendName: "Sinchana",        // 👈 your best friend's name
+            yourName: "Rangu",          // 👈 your name (shown at the end of the letter)
+            password: "sonu143",             // 👈 the secret password (not case sensitive)
+            hint: "Hint: what do I call you every day? 😉",
+
+            // 👇 5 photos. Put your image files in the SAME folder as this file and write their names,
+            //    or paste an image link. Leave src "" to show a heart placeholder.
+            photos: [
+                { src: "photo1.jpg", caption: "Where it all began" },
+                { src: "photo2.jpg", caption: "Our craziest day" },
+                { src: "photo3.jpg", caption: "You being you" },
+                { src: "photo4.jpg", caption: "My favourite memory" },
+                { src: "photo5.jpg", caption: "To many more!" }
+            ],
+
+            // 👇 Horizontal (landscape) video page, shown after the photos. Put the video file in the SAME folder.
+            video: "video.mp4",
+            videoLines: [                     // 👈 lines shown under the video
+                "Some moments are too special for words.",
+                "So here's a little movie of us, {name}. 💖"
+            ],
+
+            intro: "Today the world got its most amazing person, and I got the best friend ever.",
+
+            letter: [
+                "Dear kothi,",
+                "Happy Birthday! Nanna prithiya gelatige huttuhabbada hardika subhasayagalu❤️‍🔥💗💞🥳.",
+                "Jivanadalli ellarigu olleya snehitaru sigalla, adare nanage ninnanta atyuttama gelati sikkiruvudu nanna adrusta😊😁😁.",
+                "Nanna ella kasta-sukhagalalli🥺♥️, munisu-nagsodalli sada joteyagi nintavalu ninu💞💖💙.",
+                "Ninna ella kanasugalu, asegalu nanasagali. Sada yavglu nagunagutta nuru kala sukhavagi balu maa💝💘💓❤️‍🔥💌⚡🫶🫶🫶.",
+                "Kelavomme devaru namma jivanakke kelavu vishesha vyaktigalannu kaluhisuttane...🫶🥺😊.A visheshaa vyakti ninu.Addarinda",
+                "ninu nanna Best Friend matra alla...♥️💞💖 Nanna  Motivation, Strength, Happiness💙❤️‍🔥💌",
+                "Tumba amulyavada vyakti.Endendigu hege nagutta, khushiyagi  iru.Yakandre ninna khusiyalle nanna khusiyu ide.💖♥️😊🫶🫀💝💝💓❣️💗❤️‍🩹❤️‍🩹☺️☺️😚😚😚",
+                "And one more thing...",
+                "You are my BOSSS too..",
+                "And you for being a beautiful part of my life🩵🩵💖💖💕💕💞💞❤️‍🩹❤️‍🩹💓💓💓💗💗"
+            ],
+
+            reasons: [
+                "Your smile fixes my worst days",
+                "You always listen, no matter what",
+                "You make me laugh like no one else",
+                "You believe in me even when I don't",
+                "You're my family, by choice"
+            ],
+
+            candleMessage: "Make a wish, Nayii… I hope it comes true! 🌟",
+            giftMessage: "Your real gift: my forever friendship, and a treat from me soon! 🎁",
+            finalLine: "I love you, sinchu. Happy Birthday! 🎂💖"
+        };
+    </script>
+    <!-- ===================== END OF EDIT ZONE ===================== -->
+
+    <div id="hearts" aria-hidden="true"></div>
+    <canvas id="confetti" aria-hidden="true"></canvas>
+
+    <div id="login">
+        <div class="lock" id="lockBox">
+            <div class="big">💌</div>
+            <h1>A little surprise is waiting</h1>
+            <p>Enter the secret password to open it</p>
+            <input id="pw" type="password" placeholder="Secret password" autocomplete="off"
+                aria-label="Secret password">
+            <button class="go" id="goBtn">Open my surprise</button>
+            <div class="msg" id="msg"></div>
+        </div>
+    </div>
+
+    <main id="main">
+        <section class="hero">
+            <div class="hb">Happy Birthday</div>
+            <div class="name" id="hName"></div>
+            <p id="intro"></p>
+            <button class="down" onclick="go(1)">Start 💗</button>
+        </section>
+
+        <section id="photos">
+            <h2>Our Moments</h2>
+            <p class="sub">Little pieces of us I keep close</p>
+            <div class="grid" id="grid"></div>
+        </section>
+
+        <section>
+            <h2>Our Video</h2>
+            <p class="sub">Press play 🎬</p>
+            <div class="vid" id="vid"></div>
+            <div class="vlines" id="vlines"></div>
+        </section>
+
+        <section>
+            <h2>A Letter For You</h2>
+            <p class="sub">Written from the heart</p>
+            <div class="letter" id="letter"></div>
+        </section>
+
+        <section>
+            <h2>Why You're Special</h2>
+            <p class="sub">Tap each heart</p>
+            <div class="cards" id="cards"></div>
+        </section>
+
+        <section>
+            <h2>Surprise #1</h2>
+            <p class="sub">Make a wish</p>
+            <div class="stage">
+                <div class="tool">
+                    <svg id="cake" viewBox="0 0 200 190" width="220" role="img" aria-label="Birthday cake with candles">
+                        <rect x="30" y="110" width="140" height="60" rx="8" fill="#ff6f91" />
+                        <rect x="30" y="100" width="140" height="22" rx="8" fill="#fff" />
+                        <path d="M30 122c10 14 20 0 30 14s20 0 30 14 20-2 30 10 20-6 30 4 10-8 20-2v-30z" fill="#ffd08a"
+                            opacity=".0" />
+                        <rect x="50" y="70" width="8" height="32" fill="#b79cff" />
+                        <rect x="96" y="70" width="8" height="32" fill="#ffd08a" />
+                        <rect x="142" y="70" width="8" height="32" fill="#b79cff" />
+                        <ellipse class="flame" cx="54" cy="60" rx="7" ry="12" fill="#ffb347" />
+                        <ellipse class="flame" cx="100" cy="60" rx="7" ry="12" fill="#ffb347" />
+                        <ellipse class="flame" cx="146" cy="60" rx="7" ry="12" fill="#ffb347" />
+                        <rect x="15" y="168" width="170" height="10" rx="5" fill="#ffffff55" />
+                    </svg>
+                    <button class="btn" id="blow">Blow the candles 🎂</button>
+                    <div class="say" id="candleSay"></div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Surprise #2</h2>
+            <p class="sub">Something just for you</p>
+            <div class="stage">
+                <div class="tool">
+                    <button class="gift" id="gift" aria-label="Open the gift"><span class="lid"></span><span
+                            class="box"></span></button>
+                    <button class="btn" id="giftBtn">Open the gift 🎁</button>
+                    <div class="say" id="giftSay"></div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="fin" id="final"></div>
+        </section>
+    </main>
+
+    <nav id="nav">
+        <button id="prev">Back</button>
+        <div class="dots" id="dots"></div>
+        <button id="next">Next</button>
+    </nav>
+
+    <script>
+        const $ = id => document.getElementById(id);
+        const fill = t => t.replaceAll('{name}', CONFIG.friendName);
+
+        /* ---- floating hearts ---- */
+        (function () {
+            const box = $('hearts'), sym = ['💖', '💗', '💕', '✨', '🌸'];
+            for (let i = 0; i < 16; i++) {
+                const s = document.createElement('span'); s.className = 'h';
+                s.textContent = sym[i % sym.length];
+                s.style.left = Math.random() * 100 + '%';
+                s.style.fontSize = (14 + Math.random() * 22) + 'px';
+                s.style.animationDuration = (9 + Math.random() * 10) + 's';
+                s.style.animationDelay = (-Math.random() * 15) + 's';
+                box.appendChild(s);
+            }
+        })();
+
+        /* ---- confetti ---- */
+        const cv = $('confetti'), cx = cv.getContext('2d'); let bits = [], raf = null;
+        function size() { cv.width = innerWidth; cv.height = innerHeight } size(); addEventListener('resize', size);
+        function confetti() {
+            const cols = ['#ff6f91', '#ffd08a', '#b79cff', '#ffffff', '#ff9a76'];
+            for (let i = 0; i < 160; i++) bits.push({ x: innerWidth / 2, y: innerHeight * .6, vx: (Math.random() - .5) * 16, vy: -Math.random() * 17 - 4, r: 4 + Math.random() * 6, c: cols[i % 5], a: Math.random() * 6 });
+            if (!raf) raf = requestAnimationFrame(tick);
+        }
+        function tick() {
+            cx.clearRect(0, 0, cv.width, cv.height);
+            bits.forEach(b => {
+                b.x += b.vx; b.y += b.vy; b.vy += .35; b.vx *= .99; b.a += .2;
+                cx.fillStyle = b.c; cx.save(); cx.translate(b.x, b.y); cx.rotate(b.a); cx.fillRect(-b.r, -b.r / 2, b.r * 2, b.r); cx.restore()
+            });
+            bits = bits.filter(b => b.y < cv.height + 20);
+            raf = bits.length ? requestAnimationFrame(tick) : null;
+            if (!raf) cx.clearRect(0, 0, cv.width, cv.height);
+        }
+
+        /* ---- build content from CONFIG ---- */
+        document.title = 'Happy Birthday ' + CONFIG.friendName + ' 💖';
+        $('hName').textContent = CONFIG.friendName;
+        $('intro').textContent = CONFIG.intro;
+        $('final').textContent = fill(CONFIG.finalLine);
+
+        CONFIG.photos.slice(0, 5).forEach((p, i) => {
+            const f = document.createElement('figure'); f.className = 'pol';
+            const ph = document.createElement('div'); ph.className = 'ph'; ph.textContent = '💖';
+            if (p.src) {
+                const img = new Image(); img.alt = p.caption || ('Photo ' + (i + 1)); img.src = p.src;
+                img.onload = () => { ph.textContent = ''; ph.appendChild(img) };
+            }
+            const c = document.createElement('figcaption'); c.textContent = p.caption || '';
+            f.append(ph, c); $('grid').appendChild(f);
+        });
+
+        CONFIG.letter.forEach(t => { const p = document.createElement('p'); p.textContent = fill(t); $('letter').appendChild(p) });
+        const sig = document.createElement('p'); sig.className = 'sig'; sig.textContent = 'With all my love, ' + CONFIG.yourName; $('letter').appendChild(sig);
+
+        CONFIG.reasons.slice(0, 5).forEach(r => {
+            const c = document.createElement('button'); c.className = 'card'; c.setAttribute('aria-label', 'Reveal a reason');
+            c.innerHTML = '<span class="in"><span class="f">💗</span><span class="b"></span></span>';
+            c.querySelector('.b').textContent = r;
+            c.onclick = () => { c.classList.toggle('flip'); if (c.classList.contains('flip')) confetti() };
+            $('cards').appendChild(c);
+        });
+
+        /* ---- surprises ---- */
+        $('blow').onclick = () => { $('cake').classList.add('out'); $('candleSay').textContent = fill(CONFIG.candleMessage); confetti() };
+        function openGift() { $('gift').classList.add('open'); $('giftSay').textContent = fill(CONFIG.giftMessage); confetti() }
+        $('gift').onclick = openGift; $('giftBtn').onclick = openGift;
+
+        /* ---- video page ---- */
+        CONFIG.videoLines.forEach(t => { const p = document.createElement('p'); p.textContent = fill(t); $('vlines').appendChild(p) });
+        $('vid').textContent = '🎬';
+        if (CONFIG.video) {
+            const v = document.createElement('video'); v.src = CONFIG.video; v.controls = true; v.playsInline = true; v.preload = 'metadata';
+            v.onloadedmetadata = () => { $('vid').textContent = ''; $('vid').appendChild(v) };
+        }
+
+        /* ---- pages ---- */
+        const pages = [...document.querySelectorAll('main>section')]; let cur = 0;
+        pages.forEach(() => $('dots').appendChild(document.createElement('i')));
+        function go(n) {
+            cur = Math.max(0, Math.min(pages.length - 1, n));
+            pages.forEach((p, i) => p.classList.toggle('active', i === cur));
+            [...$('dots').children].forEach((d, i) => d.classList.toggle('on', i === cur));
+            $('prev').disabled = cur === 0; $('next').disabled = cur === pages.length - 1;
+            document.querySelectorAll('video').forEach(v => v.pause());
+            scrollTo(0, 0);
+            if (cur === pages.length - 1) confetti();
+        }
+        $('prev').onclick = () => go(cur - 1); $('next').onclick = () => go(cur + 1);
+
+        /* ---- login ---- */
+        function tryLogin() {
+            if ($('pw').value.trim().toLowerCase() === CONFIG.password.toLowerCase()) {
+                $('login').classList.add('gone'); $('main').classList.add('show'); $('nav').classList.add('show'); go(0); confetti();
+            } else {
+                $('msg').textContent = 'Not quite… ' + CONFIG.hint;
+                $('lockBox').classList.remove('shake'); void $('lockBox').offsetWidth; $('lockBox').classList.add('shake');
+            }
+        }
+        $('goBtn').onclick = tryLogin;
+        $('pw').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin() });
+    </script>
+</body>
+
+</html>
